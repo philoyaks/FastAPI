@@ -1,8 +1,17 @@
+import uuid
 from typing import Optional
 
 from fastapi import FastAPI
+from pydantic import BaseModel, fields
 
 app = FastAPI()
+
+
+class BooksModels(BaseModel):
+    id: uuid.UUID
+    title: str
+    description: Optional[str]
+
 
 BOOKS = {
     "book_1": {"title": "The Great Gatsby", "author": "F. Scott Fitzgerald"},
@@ -19,6 +28,11 @@ async def read_all_books(skip_book: Optional[str] = None):
         del new_books[skip_book]
         return new_books
     return BOOKS
+
+
+@app.get("/books/")
+async def use_pydantic(baseModel: BooksModels):
+    return baseModel
 
 
 @app.get("/{book_name}")
