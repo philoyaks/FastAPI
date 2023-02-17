@@ -30,7 +30,7 @@ async def read_all_books(skip_book: Optional[str] = None):
     return BOOKS
 
 
-@app.get("/books/")
+@app.post("/books/")
 async def use_pydantic(baseModel: BooksModels):
     return baseModel
 
